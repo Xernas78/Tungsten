@@ -40,16 +40,16 @@ public class Client implements Runnable {
         List<Header> headers = new ArrayList<>();
 
         switch (request.getExtension()) {
-            case ".css":
+            case "css":
                 headers.add(Header.CONTENT_TYPE_CSS);
                 break;
-            case ".js":
+            case "js":
                 headers.add(Header.CONTENT_TYPE_JS);
                 break;
-            case ".json":
+            case "json":
                 headers.add(Header.CONTENT_TYPE_JSON);
                 break;
-            case ".txt":
+            case "txt":
                 headers.add(Header.CONTENT_TYPE_TEXT);
                 break;
             default:
@@ -63,11 +63,12 @@ public class Client implements Runnable {
             }
             if (status == Status.OK) {
                 body = new String(stream.readAllBytes());
+                headers.add(Header.CONTENT_LENGTH.setValue(String.valueOf(body.length())));
             }
         }
 
         List<String> lines = new ArrayList<>();
-        lines.add(Protocol.HTTP.name() + " " + status.getCode() + " " + status.getMessage());
+        lines.add(Protocol.HTTP.getProtocol() + " " + status.getCode() + " " + status.getMessage());
         headers.forEach(header -> lines.add(header.getHeader()));
         lines.add("");
         lines.add(body);

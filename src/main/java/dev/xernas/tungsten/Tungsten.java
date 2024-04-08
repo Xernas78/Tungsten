@@ -27,7 +27,6 @@ public class Tungsten {
             throw new RuntimeException(e);
         }
     }
-
     public static Logger getLogger() {
         return LOGGER;
     }

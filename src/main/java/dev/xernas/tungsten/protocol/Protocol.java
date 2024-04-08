@@ -23,4 +23,8 @@ public enum Protocol {
         }
         return null;
     }
+
+    public String getProtocol() {
+        return this.name() + "/" + this.version;
+    }
 }
