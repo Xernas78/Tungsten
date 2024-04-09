@@ -10,10 +10,12 @@ public class Server {
 
     private boolean running = false;
     private final Logger logger;
+    private final String directory;
     private final int port;
 
-    public Server(int port) {
+    public Server(String directory, int port) {
         logger = Tungsten.getLogger();
+        this.directory = directory;
         this.port = port;
     }
 
@@ -22,7 +24,7 @@ public class Server {
         logger.info("Server started on port " + port);
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (running) {
-                Thread connection = new Thread(new Client(serverSocket.accept()));
+                Thread connection = new Thread(new Client(serverSocket.accept(), directory));
                 connection.start();
             }
         };

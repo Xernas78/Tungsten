@@ -13,15 +13,18 @@ public class Tungsten {
     public static void main(String[] args) {
         LOGGER.info("Starting Tungsten...");
         int port = DEFAULT_PORT;
-        if (args.length > 0) {
+        if (args.length < 1) {
+            throw new IllegalArgumentException("Website directory is required");
+        }
+        if (args.length > 1) {
             try {
-                port = Integer.parseInt(args[0]);
+                port = Integer.parseInt(args[1]);
             } catch (NumberFormatException e) {
                 LOGGER.warning("Invalid port number, using default port " + DEFAULT_PORT);
             }
         }
         try {
-            Server server = new Server(port);
+            Server server = new Server(args[0], port);
             server.start();
         } catch (IOException e) {
             throw new RuntimeException(e);

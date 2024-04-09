@@ -15,10 +15,12 @@ import java.util.logging.Logger;
 public class Client implements Runnable {
 
     private final Socket socket;
+    private final String directory;
     private final Logger logger;
 
-    public Client(Socket socket) {
+    public Client(Socket socket, String directory) {
         this.socket = socket;
+        this.directory = directory;
         this.logger = Tungsten.getLogger();
     }
 
@@ -57,14 +59,12 @@ public class Client implements Runnable {
                 break;
         }
         String body = "<h1>Tungsten 404</h1><br><span>Resource not found at " + request.getPath() + "</span>";
-        try(InputStream stream = this.getClass().getResourceAsStream(request.getPath())) {
-            if (stream == null) {
-                status = Status.NOT_FOUND;
-            }
-            if (status == Status.OK) {
-                body = new String(stream.readAllBytes());
-                headers.add(Header.CONTENT_LENGTH.setValue(String.valueOf(body.length())));
-            }
+        try(InputStream stream = new FileInputStream((directory + request.getPath()).replace("//", "/"))) {
+            body = new String(stream.readAllBytes());
+            headers.add(Header.CONTENT_LENGTH.setValue(String.valueOf(body.length())));
+        }
+        catch (FileNotFoundException e) {
+            status = Status.NOT_FOUND;
         }
 
         List<String> lines = new ArrayList<>();
