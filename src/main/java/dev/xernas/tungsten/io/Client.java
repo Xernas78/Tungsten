@@ -54,6 +54,24 @@ public class Client implements Runnable {
             case "txt":
                 headers.add(Header.CONTENT_TYPE_TEXT);
                 break;
+            case "php":
+                headers.add(Header.CONTENT_TYPE_PHP);
+                break;
+            case "jpeg":
+                headers.add(Header.CONTENT_TYPE_JPEG);
+                break;
+            case "png":
+                headers.add(Header.CONTENT_TYPE_PNG);
+                break;
+            case "gif":
+                headers.add(Header.CONTENT_TYPE_GIF);
+                break;
+            case "svg":
+                headers.add(Header.CONTENT_TYPE_SVG);
+                break;
+            case "ico":
+                headers.add(Header.CONTENT_TYPE_ICO);
+                break;
             default:
                 headers.add(Header.CONTENT_TYPE_HTML);
                 break;
